@@ -30,3 +30,17 @@ out.
 
 Try to make everything on the window side autostart.
 
+Credits:
+
+I want to thank two people who have helped me tremendously getting
+this project started.  Laura Creighton <lac@openend.se> and starc@
+<starc@humboldt1.com>
+
+Laura helped me with getting TK to behave and give me the right
+keysym and keycode characters.  starc@ built the first prototype
+linux_emitter.py and showed me how to use uinput.
+
+Both of them graciously put up with this uppity crip saying "this is
+perfect, it's great, it's wonderful, oh no, it's not what I want, let
+me fix it, oh I see what you're doing" all in one breath and the space
+of 2 minutes.
