@@ -60,17 +60,17 @@ default_event_dict = {
     'Alt_R': uinput.KEY_RIGHTALT,
     'Caps_Lock': uinput.KEY_CAPSLOCK,
     'Menu': uinput.KEY_MENU,
-    'Left': uinput.KEY_LEFT,
-    'Right': uinput.KEY_RIGHT,
-    'Up': uinput.KEY_UP,
-    'Down': uinput.KEY_DOWN,
+    'left': uinput.KEY_LEFT,
+    'right': uinput.KEY_RIGHT,
+    'up': uinput.KEY_UP,
+    'down': uinput.KEY_DOWN,
     'backspace': uinput.KEY_BACKSPACE,
-    'Home': uinput.KEY_HOME,
-    'End': uinput.KEY_END,
-    'Insert': uinput.KEY_INSERT,
-    'Prior': uinput.KEY_PAGEUP,
-    'Delete': uinput.KEY_DELETE,
-    'Next': uinput.KEY_PAGEDOWN,
+    'home': uinput.KEY_HOME,
+    'end': uinput.KEY_END,
+    'insert': uinput.KEY_INSERT,
+    'prior': uinput.KEY_PAGEUP,
+    'delete': uinput.KEY_DELETE,
+    'next': uinput.KEY_PAGEDOWN,
     'grave': uinput.KEY_GRAVE,
     'equal': uinput.KEY_EQUAL,
     'backslash': uinput.KEY_BACKSLASH,
@@ -350,6 +350,8 @@ default_event_dict = {
     # KEY_MHP
     # KEY_MICMUTE
     '-': uinput.KEY_MINUS,
+    'minus': uinput.KEY_MINUS,
+
     # KEY_MODE
     # KEY_MOVE
     # KEY_MP3
@@ -526,6 +528,7 @@ default_event_dict = {
     'colon': uinput.KEY_SEMICOLON,
     'greater': uinput.KEY_DOT,
     'less': uinput.KEY_COMMA,
+    'quotedbl': uinput.KEY_APOSTROPHE,
 
 }
 
@@ -654,7 +657,7 @@ class EmitterService(rpyc.Service):
         #print ("got call")
         #if verbose:
         #    print('IMS: {0} + {1}'.format(mod, ims), file=stderr)
-        #print ("pre emit %s"%verbose)    
+        #print ("pre emit %s"%verbose)
         self.emitter.emit_keycode(mod, keycode)
 
 if __name__ == '__main__':

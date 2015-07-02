@@ -28,22 +28,33 @@ def is_modifier(keysym):
 def key_press(event):
     global conn
     global mod_state
-    msg = 'event.char is %r and event.keysym is %r' % (event.char, event.keysym)
-    
-    lab.config(text=msg)
-    if is_modifier(event.keysym):
-        mod_state.append(event.keysym)
+
+    keysym = event.keysym
+
+    # fix random missing keysyms
+    if keysym == "??" and event.char == "@":
+        keysym =  "at"
+        mod_state.append("Shift_L")
+
+        print "convert ?? to at"
+
+    if is_modifier(keysym):
+        mod_state.append(keysym)
+        print "got modifier  %s " % keysym
     else:
         # not modifier? send last modifiers and key
         # force char to lower
-        lc_keysym = event.keysym.lower()
+        lc_keysym = keysym.lower()
         x = conn.root.NS_keysym(mod_state, lc_keysym)
         # clear last know modifier state
+
+    msg = 'event.char is %r %s, event.keycode is %x, event.keysym is %r' % (event.char, event.char.encode("hex"), event.keycode, keysym)
+    lab.config(text=msg)
 
 def key_release(event):
         if is_modifier(event.keysym):
                 mod_state.remove(event.keysym)
-    
+
 def main():
     # and unmodified key events
     lab.bind_all('<KeyPress>', key_press)
