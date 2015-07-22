@@ -15,7 +15,7 @@ from sys import stdin, stdout, stderr
 from threading import Lock
 import rpyc
 from rpyc.utils.server import ThreadedServer
-# import pprint
+import pprint
 
 # $version$
 version = 3.0
@@ -624,6 +624,7 @@ class Emitter():
 
 class EmitterService(rpyc.Service):
     emitter = None
+    name_item = None
 
     def on_connect(self):
         """
@@ -644,6 +645,10 @@ class EmitterService(rpyc.Service):
                     loop_forever=False,
                     loop_limit=14000)
 
+        # set up dict lookup
+        self.name_item = csv_2d_dict(None)
+
+
     def on_disconnect(self):
         """
         code that runs when the connection has already closed
@@ -659,6 +664,53 @@ class EmitterService(rpyc.Service):
         #    print('IMS: {0} + {1}'.format(mod, ims), file=stderr)
         #print ("pre emit %s"%verbose)
         self.emitter.emit_keycode(mod, keycode)
+
+    def exposed_sample1(self, words, fullResults):
+        print ("run exposed_sample1")
+        pprint.pprint(words)
+        pprint.pprint(fullResults)
+
+    def exposed_say_what(self):
+        return self.name_item.say_what()
+
+    def exposed_this_response(self, name, item):
+        return self.name_item.this_response(name,item)
+
+import csv
+
+class csv_2d_dict(object):
+    """read a csv file, stuff it into a 2d dict then build grammer from it
+    """
+    def __init__(self,filename):
+        self.name_list = []
+        self.item_list = []
+        self.name_dict = {}
+        with open('/home/eric/accounts-7-21-2015.csv') as csv_file:
+            reader = csv.DictReader(csv_file)
+            for row in reader:
+                #print(row)
+                self.name_list.append(row['Spoken Name'])
+                self.name_dict[row['Spoken Name']] = row
+
+            # extract key names from last row
+            for key, item in row.items():
+                self.item_list.append(key)
+    
+    def say_what(self):
+        """ return what can be said.
+
+        """    
+        print ("say what")
+        return (self.name_list, self.item_list)
+
+    def this_response(self, name, item):
+        print ("this response %s %s"% (name, item))
+        print (self.name_dict[name])
+        try:
+            return  self.name_dict[name][item]
+        except Exception, e:
+            raise e    
+
 
 if __name__ == '__main__':
     t = ThreadedServer(EmitterService, '172.30.40.1', port = 12345)
